@@ -1,5 +1,5 @@
 FROM java:8
-MAINTAINER Your Name <you@example.com>
+MAINTAINER labsoft-2018
 
 ADD target/auth-0.0.1-SNAPSHOT-standalone.jar /srv/auth.jar
 
