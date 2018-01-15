@@ -1,0 +1,4 @@
+{
+  "env": "prod",
+  "datomic-endpoint": "datomic:mem://auth"
+}

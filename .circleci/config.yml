@@ -1,0 +1,67 @@
+# Clojure CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-clojure/ for more details
+#
+
+defaults: &defaults
+  working_directory: ~/repo
+  environment:
+        LEIN_ROOT: "true"
+        JVM_OPTS: -Xmx3200m
+  docker:
+    - image: circleci/clojure:lein-2.7.1
+
+version: 2
+jobs:
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: lein midje
+
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: lein uberjar
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: |
+          IMAGE_NAME=$CIRCLE_PROJECT_REPONAME
+          TAG=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/$IMAGE_NAME
+          docker build -t labsoft-2018/$IMAGE_NAME:$TAG .
+      - run: |
+          apt install python-pip python-dev
+          pip install awscli
+          awscli --version
+      - run: |
+          aws ecr create-repository --repository-name $IMAGE_NAME || echo "Repo already exists"
+          $(aws ecr get-login --no-include-email)
+          docker push $TAG
+
+  deploy:
+    <<: *defaults
+    steps:
+      - run: echo "Por Enquanto Nada..."
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - test
+      - build:
+          requires:
+            - test
+      - promote:
+          filters:
+            branches:
+              only: master
+          type: approval
+          requires:
+            - build
+      - deploy:
+          filters:
+            branches:
+              only: master
+          requires:
+            - promote
