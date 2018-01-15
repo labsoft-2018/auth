@@ -1,4 +1,5 @@
 (ns auth.service
+  (:gen-class)
   (:require [common-labsoft.system :as system]
             [auth.routes :refer [routes]]))
 
