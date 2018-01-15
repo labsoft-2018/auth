@@ -27,8 +27,8 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run: |
-          IMAGE_NAME=$CIRCLE_PROJECT_REPONAME
-          TAG=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/$IMAGE_NAME
+          export IMAGE_NAME=$CIRCLE_PROJECT_REPONAME
+          export TAG=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/$IMAGE_NAME
           docker build -t labsoft-2018/$IMAGE_NAME:$TAG .
       - run: |
           apt install python-pip python-dev
