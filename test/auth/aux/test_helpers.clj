@@ -10,7 +10,7 @@
 (defn test-service
   "Return a service-fn for use with Pedestal's `response-for` test helper."
   []
-  (let [system (service/start)]
+  (let [system (service/start!)]
     (swap! service-fn #(or % (::http/service-fn (-> system :pedestal :service))))))
 
 (defn with-seeds
