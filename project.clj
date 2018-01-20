@@ -2,6 +2,9 @@
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "All Rights Reserved"}
+  :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
+                                   :username :env/datomic_username
+                                   :password :env/datomic_password}}
   :deploy-repositories [["clojars" {:url      "https://clojars.org/repo"
                                     :username :env/clojars_username
                                     :password :env/clojars_password}]]
