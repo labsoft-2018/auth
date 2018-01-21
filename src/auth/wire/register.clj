@@ -1,4 +1,4 @@
-(ns auth.models.register
+(ns auth.wire.register
   (:require [schema.core :as s]
             [auth.models.credential :as models.credential]
             [auth.models.user :as models.user]
