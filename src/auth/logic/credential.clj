@@ -1,7 +1,8 @@
 (ns auth.logic.credential
   (:require [schema.core :as s]
             [auth.models.credential :as models.credential]
-            [auth.models.user :as models.user]))
+            [auth.models.user :as models.user]
+            [common-labsoft.protocols.crypto :as protocols.crypto]))
 
 (s/defn base-credential :- models.credential/Credential
   [user-id :- s/Uuid
@@ -16,3 +17,10 @@
   [user-type :- models.user/UserTypes, cred-type :- models.credential/CredentialType]
   (or (= :user.type/customer user-type)
       (= :credential.type/password cred-type)))
+
+(s/defn check-pass-credential :- (s/maybe models.credential/Credential)
+  [{:keys [credential/encrypted-password] :as credential} :- models.credential/Credential
+   password :- s/Str
+   crypto :- protocols.crypto/ICrypto]
+  (when (protocols.crypto/check crypto encrypted-password password)
+    credential))

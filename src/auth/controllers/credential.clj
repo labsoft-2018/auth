@@ -6,7 +6,9 @@
             [auth.models.user :as models.user]
             [auth.wire.register :as wire.register]
             [common-labsoft.protocols.crypto :as protocols.crypto]
-            [common-labsoft.protocols.datomic :as protocols.datomic]))
+            [common-labsoft.protocols.datomic :as protocols.datomic]
+            [auth.wire.auth :as wire.auth]
+            [common-labsoft.exception :as exception]))
 
 (defmulti prepare-credential! (fn [type _ _] (:credential/type type)))
 
@@ -25,3 +27,13 @@
   (-> (logic.credential/base-credential user-id email cred-type)
       (prepare-credential! register crypto)
       (datomic.credential/new-credential! datomic)))
+
+(defmulti authenticate-request! (fn [auth-request _ _] (:auth/cred-type auth-request)))
+
+(s/defmethod authenticate-request! :credential.type/password :- models.credential/Credential
+  [{:keys [auth/email auth/password]} :- wire.auth/UserAuthRequest
+   datomic :- protocols.datomic/IDatomic
+   crypto :- protocols.crypto/ICrypto]
+  (or (-> (datomic.credential/email->credential email datomic)
+          (logic.credential/check-pass-credential password crypto))
+      (exception/forbidden! {:error :error-authenticating-credential})))

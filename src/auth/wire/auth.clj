@@ -1,6 +1,8 @@
 (ns auth.wire.auth
   (:require [schema.core :as s]
-            [common-labsoft.schema :as schema]))
+            [common-labsoft.schema :as schema]
+            [auth.models.user :as models.user]
+            [auth.models.credential :as models.credential]))
 
 (def service-auth-request-skeleton {:auth/service  {:schema s/Keyword :required true}
                                     :auth/password {:schema s/Str :required true}})
@@ -12,8 +14,8 @@
 (def cred-type #{:password :facebook})
 (s/defschema CredType (apply s/enum cred-type))
 
-(def user-auth-request-skeleton {:auth/user-type {:schema UserType :required true}
-                                 :auth/cred-type {:schema CredType :required true}
+(def user-auth-request-skeleton {:auth/user-type {:schema models.user/UserTypes :required true}
+                                 :auth/cred-type {:schema models.credential/CredentialType :required true}
                                  :auth/email     {:schema s/Str :require false}
                                  :auth/password  {:schema s/Str :required false}
                                  :auth/fb-id     {:schema s/Str :required false}

@@ -29,6 +29,12 @@
    :schema wire.token/JwtBearerToken
    :body   {:token/jwt (controllers.token/service-token! auth-request config token crypto)}})
 
+(defn user-token
+  [{{:keys [crypto token datomic]} :components auth-request :data}]
+  {:status 200
+   :schema wire.token/JwtBearerToken
+   :body   {:token/jwt (controllers.token/user-token! auth-request token datomic crypto)}})
+
 (defroutes routes
   [[["/" ^:interceptors [int-err/catch!
                          (body-params/body-params)
@@ -38,8 +44,12 @@
      ["/api"
       {:get [:hello-world hello-world]}
 
-      ["/users/register" ^:interceptors [(int-schema/coerce wire.register/Register)]
-       {:post [:user-register register-user]}]
+      ["/users"
+       ["/register" ^:interceptors [(int-schema/coerce wire.register/Register)]
+        {:post [:user-register register-user]}]
+
+       ["/token" ^:interceptors [(int-schema/coerce wire.auth/UserAuthRequest)]
+        {:post [:user-token user-token]}]]
 
       ["/services/token" ^:interceptors [(int-schema/coerce wire.auth/ServiceAuthRequest)]
        {:post [:service-token service-token]}]]]]])

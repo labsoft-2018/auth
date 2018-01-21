@@ -8,8 +8,8 @@
 (def pass-credential {:credential/type :credential.type/password})
 
 (facts "when creating a new credential"
-  (let [register {:register/email    ..email..
-                  :register/password ..pass..
+  (let [register {:register/email     ..email..
+                  :register/password  ..pass..
                   :register/cred-type ..cred-type..}]
     (fact "on `prepare-credential!` - using password"
       (controllers.credential/prepare-credential! pass-credential register ..crypto..)
@@ -24,3 +24,22 @@
         (logic.credential/base-credential ..user-id.. ..email.. ..cred-type..) => ..base-cred..
         (controllers.credential/prepare-credential! ..base-cred.. register ..crypto..) => ..secure-cred..
         (datomic.credential/new-credential! ..secure-cred.. ..datomic..) => ..credential..))))
+
+(facts "whe authenticating new users request for token"
+  (fact "using password - success"
+    (controllers.credential/authenticate-request! {:auth/email     ..email..
+                                                   :auth/password  ..password..
+                                                   :auth/cred-type :credential.type/password} ..datomic.. ..crypto..)
+    => ..credential..
+    (provided
+      (datomic.credential/email->credential ..email.. ..datomic..) => ..credential..
+      (logic.credential/check-pass-credential ..credential.. ..password.. ..crypto..) => ..credential..))
+
+  (fact "using password - failure"
+    (controllers.credential/authenticate-request! {:auth/email     ..email..
+                                                   :auth/password  ..password..
+                                                   :auth/cred-type :credential.type/password} ..datomic.. ..crypto..)
+    => (throws Exception)
+    (provided
+      (datomic.credential/email->credential ..email.. ..datomic..) => ..credential..
+      (logic.credential/check-pass-credential ..credential.. ..password.. ..crypto..) => nil)))
