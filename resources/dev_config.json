@@ -7,5 +7,6 @@
     "region": "us-east-1"
   },
   "pub-key-path": "test/pubkey.pem",
-  "priv-key-path": "test/privkey.pem"
+  "priv-key-path": "test/privkey.pem",
+  "jwt-duration": 1440
 }
