@@ -11,6 +11,6 @@
                           :credential/type               {:schema CredentialType :required true}
                           :credential/email              {:schema s/Str :required true :unique true}
                           :credential/encrypted-password {:schema s/Str :required false}
-                          :credential/facebook-id        {:schema s/Str :required false :unique true}
+                          :credential/fb-id              {:schema s/Str :required false :unique true}
                           :credential/created-at         {:schema time/LocalDateTime :required true}})
 (s/defschema Credential (schema/skel->schema credential-skeleton))

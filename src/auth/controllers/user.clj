@@ -8,7 +8,9 @@
             [common-labsoft.protocols.crypto :as protocols.crypto]
             [common-labsoft.protocols.sqs :as protocols.sqs]
             [common-labsoft.protocols.datomic :as protocols.datomic]
-            [auth.wire.register :as wire.register]))
+            [auth.wire.register :as wire.register]
+            [auth.logic.credential :as logic.credential]
+            [common-labsoft.exception :as exception]))
 
 (s/defn register-new-user! :- s/Str
   [register :- wire.register/Register
@@ -16,8 +18,10 @@
    token :- protocols.token/IToken
    sqs :- protocols.sqs/ISQS
    datomic :- protocols.datomic/IDatomic]
-  (let [user (-> (logic.user/register->user register)
-                 (datomic.user/new-user! datomic))]
-    (controllers.credential/new-credential! user register crypto datomic)
-    (-> (logic.token/user->token user)
-        (logic.token/bearer-token token))))
+  (if (logic.credential/valid-cred-type? (:register/type register) (:register/cred-type register))
+    (let [user (-> (logic.user/register->user register)
+                   (datomic.user/new-user! datomic))]
+      (controllers.credential/new-credential! user register crypto datomic)
+      (-> (logic.token/user->token user)
+          (logic.token/bearer-token token)))
+    (exception/bad-request! {:error :invalid-credential-type})))
