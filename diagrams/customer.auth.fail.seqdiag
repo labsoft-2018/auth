@@ -1,0 +1,5 @@
+Title: Customer auth flow - invalid facebookToken
+CustomerMobile->Auth: /sign-in-facebook :facebookToken
+Auth->Facebook: Verify token
+Facebook->Auth: null
+Auth->CustomerMobile: 401 Unauthorized

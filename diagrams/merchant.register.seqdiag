@@ -1,0 +1,12 @@
+Title: Merchant registration flow
+MerchantWebapp->Auth: /register :email :password :type merchant
+Auth->User: createUser
+User->Auth: user
+Auth->Credentials: createCredential
+Credentials->Auth: credential
+Auth->Merchant: /create-merchant
+Merchant->Auth: merchant
+Note over Auth: Generate token for user
+Auth->MerchantWebapp: 200 token
+
+# Note: if create-merchant fails, we should revert the created user and credential

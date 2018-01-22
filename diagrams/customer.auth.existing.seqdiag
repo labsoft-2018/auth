@@ -1,0 +1,10 @@
+Title: Customer auth flow - existing user
+CustomerMobile->Auth: /sign-in-facebook :facebookToken
+Auth->Facebook: Verify token
+Facebook->Auth: fbUser
+Auth->Credential: get user-id by fbUser.id
+Credential->Auth: user-id
+Auth->User: get user by user-id
+User->Auth: user
+Note over Auth: Generate token for user
+Auth->CustomerMobile: 200 token
