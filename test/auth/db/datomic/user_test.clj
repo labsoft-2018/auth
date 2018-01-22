@@ -8,7 +8,7 @@
 (def user-id (misc/squuid))
 (def user {:user/email "test@test.com"
            :user/type  :user.type/customer})
-(def created-at #new/time "2018-10-10T12:10:00")
+(def created-at #time/time "2018-10-10T12:10:00")
 (def stored-user (assoc user :user/id user-id
                              :user/created-at created-at))
 

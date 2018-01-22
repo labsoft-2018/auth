@@ -5,7 +5,7 @@
             [auth.db.datomic.credential :as datomic.credential]
             [common-labsoft.misc :as misc]))
 
-(def created-at #new/time "2018-10-10T12:10:00")
+(def created-at #time/time "2018-10-10T12:10:00")
 (def user-id (misc/squuid))
 (def credential-id (misc/squuid))
 (def credential {:credential/user-id            user-id

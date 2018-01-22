@@ -17,7 +17,8 @@
 
 (th/with-service [service/start! service/stop!] [system service]
   (fact "when registering a new user using password"
-    (th/request! service :post "/api/users/register" pass-register) => (contains {:token/jwt string?}))
+    (th/request! service :post "/api/users/register" pass-register) => (contains {:user/type "user.type/customer"
+                                                                                  :user/email "teste@teste.com"}))
 
   (fact "the user can retrieve it's token"
     (th/request! service :post "/api/users/token" user-token-request) => (contains {:token/jwt string?}))

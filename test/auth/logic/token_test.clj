@@ -5,7 +5,7 @@
             [common-labsoft.protocols.token :as protocols.token]))
 
 (def user-id (misc/uuid))
-(def created-at #new/time "2018-10-10T00:00:00Z")
+(def created-at #time/time "2018-10-10T00:00:00Z")
 
 (facts "when creating tokens"
   (fact "on `user->token`"
@@ -18,9 +18,4 @@
   (fact "on `service->token`"
     (logic.token/service->token "test-service" #{"scope1"}) => {:token/type   :service
                                                                 :token/sub    "test-service"
-                                                                :token/scopes #{"scope1"}})
-
-  (fact "on `bearer-token`"
-    (logic.token/bearer-token ..token.. ..token-encoder..) => "Bearer base64token"
-    (provided
-      (protocols.token/encode ..token-encoder.. ..token..) => "base64token")))
+                                                                :token/scopes #{"scope1"}}))
