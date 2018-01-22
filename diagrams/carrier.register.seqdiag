@@ -1,0 +1,12 @@
+Title: Carrier registration flow
+CarrierMobile->Auth: /register :email :password :type carrier
+Auth->User: createUser
+User->Auth: user
+Auth->Credentials: createCredential
+Credentials->Auth: credential
+Auth->Carrier: /create-carrier
+Carrier->Auth: carrier
+Note over Auth: Generate token for user
+Auth->CarrierMobile: 200 token
+
+# Note: if create-carrier fails, we should revert the created user and credential
