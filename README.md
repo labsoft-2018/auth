@@ -27,12 +27,17 @@ $ sudo docker build .
 
 ## Diagrams
 
-![alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/carrier.register.png)
+### Carrier Register
+![Alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/carrier.register.svg?sanitize=true)
 
-![alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/customer.auth.existing.png)
+### Merchant Register
+![Alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/merchant.register.svg?sanitize=true)
 
-![alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/customer.auth.fail.png)
+### Customer Auth - Existing Facebook User
+![Alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/customer.auth.existing.svg?sanitize=true)
 
-![alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/customer.auth.new.png)
+### Customer Auth - Invalid Facebook Token
+![Alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/customer.auth.fail.svg?sanitize=true)
 
-![alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/merchant.register.png)
+### Customer Auth - New User
+![Alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/customer.auth.new.svg?sanitize=true)
