@@ -2,11 +2,12 @@ Title: Customer auth flow - new user
 CustomerMobile->Auth: /sign-in-facebook :facebookToken
 Auth->*Facebook*: Verify token
 *Facebook*->Auth: fbUser
-Auth->User: get user by fbUser.id
-User->Auth: null
+Auth->Credential: get user by fbUser.id
+Credential->Auth: null
 Auth->User: createUser {:type :customer :email fbUser.email}
 User->Auth: user
 Auth->Credential: createCredential :user user :type 'facebook' :fb-id fbUser.id
+Credential->Auth: credential
 Auth->Customer: /create-customer :name fbUser.name :photo fbUser.photo
 Customer->Auth: customer
 Note over Auth: Generate token for user
