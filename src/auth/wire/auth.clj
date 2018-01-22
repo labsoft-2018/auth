@@ -8,12 +8,6 @@
                                     :auth/password {:schema s/Str :required true}})
 (s/defschema ServiceAuthRequest (schema/skel->schema service-auth-request-skeleton))
 
-(def user-type #{:customer :merchant :carrier})
-(s/defschema UserType (apply s/enum user-type))
-
-(def cred-type #{:password :facebook})
-(s/defschema CredType (apply s/enum cred-type))
-
 (def user-auth-request-skeleton {:auth/user-type {:schema models.user/UserTypes :required true}
                                  :auth/cred-type {:schema models.credential/CredentialType :required true}
                                  :auth/email     {:schema s/Str :require false}

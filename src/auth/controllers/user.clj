@@ -9,9 +9,9 @@
             [auth.wire.register :as wire.register]
             [auth.logic.credential :as logic.credential]
             [common-labsoft.exception :as exception]
-            [auth.models.user :as models.user]))
+            [auth.wire.user :as wire.user]))
 
-(s/defn register-new-user! :- models.user/User
+(s/defn register-new-user! :- wire.user/AuthenticatedUser
   [register :- wire.register/Register
    crypto :- protocols.crypto/ICrypto
    sqs :- protocols.sqs/ISQS
@@ -20,5 +20,5 @@
     (let [user (-> (logic.user/register->user register)
                    (datomic.user/new-user! datomic))]
       (controllers.credential/new-credential! user register crypto datomic)
-      user)
+      (logic.user/user->authenticated-user user))
     (exception/bad-request! {:error :invalid-credential-type})))

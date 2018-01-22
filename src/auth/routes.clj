@@ -4,34 +4,36 @@
             [common-labsoft.pedestal.interceptors.schema :as int-schema]
             [common-labsoft.pedestal.interceptors.adapt :as int-adapt]
             [auth.adapters.token :as adapters.token]
+            [auth.adapters.user :as adapters.user]
             [auth.controllers.user :as controllers.user]
             [auth.controllers.token :as controllers.token]
             [io.pedestal.http.route.definition :refer [defroutes]]
-            [io.pedestal.http :as http]
             [io.pedestal.http.body-params :as body-params]
             [auth.wire.register :as wire.register]
             [auth.wire.auth :as wire.auth]
             [auth.wire.token :as wire.token]
-            [auth.models.user :as models.user]))
+            [auth.models.user :as models.user]
+            [auth.wire.user :as wire.user]))
 
 (defn register-user
-  [{{:keys [sqs datomic crypto]} :components register :data}]
+  [{{:keys [sqs datomic token crypto]} :components register :data}]
   {:status 200
-   :schema models.user/User
-   :body   (controllers.user/register-new-user! register crypto sqs datomic)})
+   :schema wire.user/UserWithJwtToken
+   :body   (-> (controllers.user/register-new-user! register crypto sqs datomic)
+               (adapters.user/authenticated-user->user-with-jwt token))})
+
+(defn user-token
+  [{{:keys [crypto token datomic]} :components auth-request :data}]
+  {:status 200
+   :schema wire.user/UserWithJwtToken
+   :body   (-> (controllers.token/user-token! auth-request datomic crypto)
+               (adapters.user/authenticated-user->user-with-jwt token))})
 
 (defn service-token
   [{{:keys [crypto token config]} :components auth-request :data}]
   {:status 200
    :schema wire.token/JwtBearerToken
    :body   (-> (controllers.token/service-token! auth-request config crypto)
-               (adapters.token/token->jwt-token token))})
-
-(defn user-token
-  [{{:keys [crypto token datomic]} :components auth-request :data}]
-  {:status 200
-   :schema wire.token/JwtBearerToken
-   :body   (-> (controllers.token/user-token! auth-request datomic crypto)
                (adapters.token/token->jwt-token token))})
 
 (defroutes routes

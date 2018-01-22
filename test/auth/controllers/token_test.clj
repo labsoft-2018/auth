@@ -6,7 +6,8 @@
             [auth.logic.token :as logic.token]
             [auth.logic.credential :as logic.credential]
             [auth.controllers.credential :as controllers.credential]
-            [auth.db.datomic.user :as datomic.user]))
+            [auth.db.datomic.user :as datomic.user]
+            [auth.logic.user :as logic.user]))
 
 (facts "when generating a new token for a service"
   (fact "on `service-token!` - the check was successfully made"
@@ -27,11 +28,11 @@
 (facts "when generating a new token for an user"
   (facts "using a password credential"
     (fact "on `user-token!` - success"
-      (controllers.token/user-token! ..auth-request.. ..datomic.. ..crypto..) => ..user-token..
+      (controllers.token/user-token! ..auth-request.. ..datomic.. ..crypto..) => ..authenticated-user..
       (provided
         ..auth-request.. =contains=> {:auth/cred-type ..cred-type.. :auth/user-type ..user-type..}
         (logic.credential/valid-cred-type? ..user-type.. ..cred-type..) => true
         (controllers.credential/authenticate-request! ..auth-request.. ..datomic.. ..crypto..) => ..credential..
         ..credential.. =contains=> {:credential/user-id ..user-id..}
         (datomic.user/lookup! ..user-id.. ..datomic..) => ..user..
-        (logic.token/user->token ..user..) => ..user-token..))))
+        (logic.user/user->authenticated-user ..user..) => ..authenticated-user..))))

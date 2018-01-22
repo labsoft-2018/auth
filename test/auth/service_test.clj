@@ -1,6 +1,8 @@
 (ns auth.service-test
   (:require [midje.sweet :refer :all]
             [common-labsoft.test-helpers :as th]
+            [matcher-combinators.midje :refer [match]]
+            [matcher-combinators.matchers :as m]
             [auth.service :as service]))
 
 (def pass-register {:register/email     "teste@teste.com"
@@ -17,11 +19,16 @@
 
 (th/with-service [service/start! service/stop!] [system service]
   (fact "when registering a new user using password"
-    (th/request! service :post "/api/users/register" pass-register) => (contains {:user/type "user.type/customer"
-                                                                                  :user/email "teste@teste.com"}))
+    (th/request! service :post "/api/users/register" pass-register) => (match
+                                                                         (m/contains-map {:user/type  "user.type/customer"
+                                                                                          :user/email "teste@teste.com"
+                                                                                          :user/token {:token/jwt string?}})))
 
   (fact "the user can retrieve it's token"
-    (th/request! service :post "/api/users/token" user-token-request) => (contains {:token/jwt string?}))
+    (th/request! service :post "/api/users/token" user-token-request) => (match
+                                                                           (m/contains-map {:user/type  "user.type/customer"
+                                                                                            :user/email "teste@teste.com"
+                                                                                            :user/token {:token/jwt string?}})))
 
   (fact "when requesting a service-token"
     (th/request! service :post "/api/services/token" service-token-request) => (contains {:token/jwt string?})))

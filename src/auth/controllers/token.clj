@@ -9,7 +9,9 @@
             [auth.controllers.credential :as controllers.credential]
             [auth.db.datomic.user :as datomic.user]
             [common-labsoft.protocols.datomic :as protocols.datomic]
-            [auth.wire.token :as wire.token]))
+            [auth.wire.token :as wire.token]
+            [auth.logic.user :as logic.user]
+            [auth.wire.user :as wire.user]))
 
 (s/defn service-token! :- wire.token/Token
   [{:keys [auth/service auth/password]} :- wire.auth/ServiceAuthRequest
@@ -20,7 +22,7 @@
       (logic.token/service->token service scopes)
       (exception/forbidden! {:service-token :credentials-do-not-match}))))
 
-(s/defn user-token! :- wire.token/Token
+(s/defn user-token! :- wire.user/AuthenticatedUser
   [{:keys [auth/user-type auth/cred-type] :as auth-request} :- wire.auth/UserAuthRequest
    datomic :- protocols.datomic/IDatomic
    crypto :- protocols.crypto/ICrypto]
@@ -28,5 +30,5 @@
     (-> (controllers.credential/authenticate-request! auth-request datomic crypto)
         :credential/user-id
         (datomic.user/lookup! datomic)
-        logic.token/user->token)
+        logic.user/user->authenticated-user)
     (exception/bad-request! {:error :invalid-credential-type})))
