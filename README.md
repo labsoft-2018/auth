@@ -27,12 +27,12 @@ $ sudo docker build .
 
 ## Diagrams
 
-![alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/carrier.register.svg)
+![alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/carrier.register.png)
 
-![alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/customer.auth.existing.svg)
+![alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/customer.auth.existing.png)
 
-![alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/customer.auth.fail.svg)
+![alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/customer.auth.fail.png)
 
-![alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/customer.auth.new.svg)
+![alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/customer.auth.new.png)
 
-![alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/merchant.register.svg)
+![alt text](https://raw.githubusercontent.com/labsoft-2018/auth/master/diagrams/merchant.register.png)
