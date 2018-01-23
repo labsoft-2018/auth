@@ -23,10 +23,10 @@
                (adapters.user/authenticated-user->user-with-jwt token))})
 
 (defn user-token
-  [{{:keys [crypto token datomic]} :components auth-request :data}]
+  [{{:keys [crypto token datomic http sqs]} :components auth-request :data}]
   {:status 200
    :schema wire.user/UserWithJwtToken
-   :body   (-> (controllers.token/user-token! auth-request datomic crypto)
+   :body   (-> (controllers.token/user-token! auth-request sqs datomic crypto http)
                (adapters.user/authenticated-user->user-with-jwt token))})
 
 (defn service-token

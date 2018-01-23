@@ -12,6 +12,5 @@
                                  :auth/cred-type {:schema models.credential/CredentialType :required true}
                                  :auth/email     {:schema s/Str :require false}
                                  :auth/password  {:schema s/Str :required false}
-                                 :auth/fb-id     {:schema s/Str :required false}
                                  :auth/fb-token  {:schema s/Str :required false}})
 (s/defschema UserAuthRequest (schema/skel->schema user-auth-request-skeleton))
