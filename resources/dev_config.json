@@ -7,5 +7,15 @@
     "region": "us-east-1"
   },
   "pub-key-path": "test/pubkey.pem",
-  "priv-key-path": "test/privkey.pem"
+  "priv-key-path": "test/privkey.pem",
+  "jwt-duration": 1440,
+  "sqs": {
+    "endpoint": "http://localhost:4576"
+  },
+  "trusted-clients": {
+    "auth": {
+      "scopes": ["auth"],
+      "password": "bcrypt+sha512$a2a4a8e71c91271f2860a6515da9c966$12$818f7cf856a9fab7a0a1e9976d294ac99b28cf7e7df6df7e"
+    }
+  }
 }

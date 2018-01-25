@@ -8,6 +8,6 @@
 
 (def user-skeleton {:user/id         {:schema s/Uuid :id true}
                     :user/type       {:schema UserTypes :required true}
-                    :user/email      {:schema s/Str :required true}
+                    :user/email      {:schema s/Str :required true :unique true}
                     :user/created-at {:schema time/LocalDateTime :required true}})
 (s/defschema User (schema/skel->schema user-skeleton))
