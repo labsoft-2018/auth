@@ -1,5 +1,7 @@
 {
   "env": "dev",
+  "service-name": "auth",
+  "service-password": "!XkzBz;xd+Z&),3X",
   "datomic-endpoint": "datomic:mem://auth",
   "port": 8080,
   "s3-auth": {
@@ -21,5 +23,8 @@
       "scopes": ["facade"],
       "password": "bcrypt+sha512$f87e96f4c3381fe06bd1feb90c45f8b3$12$40d7a5ef1aefd1b443c2a60afd78cc6cdc7309c09882dbc3"
     }
+  },
+  "services": {
+
   }
 }
