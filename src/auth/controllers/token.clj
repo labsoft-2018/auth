@@ -13,7 +13,8 @@
             [auth.logic.user :as logic.user]
             [auth.wire.user :as wire.user]
             [auth.controllers.user :as controllers.user]
-            [common-labsoft.protocols.sqs :as protocols.sqs]))
+            [common-labsoft.protocols.sqs :as protocols.sqs]
+            [common-labsoft.protocols.http-client :as protocols.http-client]))
 
 (s/defn service-token! :- wire.token/Token
   [{:keys [auth/service auth/password]} :- wire.auth/ServiceAuthRequest
@@ -31,7 +32,7 @@
    _ :- protocols.sqs/IProducer
    datomic :- protocols.datomic/IDatomic
    crypto :- protocols.crypto/ICrypto
-   http]
+   http :- protocols.http-client/IHttpClient]
   (-> (controllers.credential/authenticate-pass-request! auth-request datomic crypto)
       (controllers.user/credential->authenticated-user datomic)))
 
