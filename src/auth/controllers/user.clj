@@ -8,6 +8,7 @@
             [common-labsoft.protocols.crypto :as protocols.crypto]
             [common-labsoft.protocols.sqs :as protocols.sqs]
             [common-labsoft.protocols.datomic :as protocols.datomic]
+            [common-labsoft.protocols.http-client :as protocols.http-client]
             [auth.wire.register :as wire.register]
             [auth.logic.credential :as logic.credential]
             [common-labsoft.exception :as exception]
@@ -38,7 +39,7 @@
    crypto :- protocols.crypto/ICrypto
    sqs :- protocols.sqs/IProducer
    datomic :- protocols.datomic/IDatomic
-   http]
+   http :- protocols.http-client/IHttpClient]
   (or (and (logic.credential/valid-cred-type? user-type :credential.type/facebook)
            (some-> (diplomat.http/fb-token->fb-user! fb-token http)
                    (adapters.facebook/fb-user->register)
