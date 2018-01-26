@@ -13,7 +13,8 @@
             [auth.logic.user :as logic.user]
             [auth.wire.user :as wire.user]
             [auth.controllers.user :as controllers.user]
-            [common-labsoft.protocols.sqs :as protocols.sqs]))
+            [common-labsoft.protocols.sqs :as protocols.sqs]
+            [common-labsoft.protocols.http-client :as protocols.http-client]))
 
 (s/defn service-token! :- wire.token/Token
   [{:keys [auth/service auth/password]} :- wire.auth/ServiceAuthRequest
@@ -27,20 +28,20 @@
 (defmulti user-token! (fn [auth-request _ _ _ _] (:auth/cred-type auth-request)))
 
 (s/defmethod user-token! :credential.type/password :- wire.user/AuthenticatedUser
-  [{:keys [auth/user-type auth/cred-type] :as auth-request} :- wire.auth/UserAuthRequest
-   _ :- protocols.sqs/ISQS
-   datomic :- protocols.datomic/IDatomic
-   crypto :- protocols.crypto/ICrypto
-   http]
-  (-> (controllers.credential/authenticate-pass-request! auth-request datomic crypto)
-      (controllers.user/credential->authenticated-user datomic)))
+             [{:keys [auth/user-type auth/cred-type] :as auth-request} :- wire.auth/UserAuthRequest
+              _ :- protocols.sqs/ISQS
+              datomic :- protocols.datomic/IDatomic
+              crypto :- protocols.crypto/ICrypto
+              http :- protocols.http-client/IHttpClient]
+             (-> (controllers.credential/authenticate-pass-request! auth-request datomic crypto)
+                 (controllers.user/credential->authenticated-user datomic)))
 
 (s/defmethod user-token! :credential.type/facebook :- wire.user/AuthenticatedUser
-  [{:keys [auth/user-type auth/cred-type] :as auth-request} :- wire.auth/UserAuthRequest
-   sqs :- protocols.sqs/ISQS
-   datomic :- protocols.datomic/IDatomic
-   crypto :- protocols.crypto/ICrypto
-   http]
-  (or (some-> (controllers.credential/authenticate-fb-request! auth-request datomic http)
-              (controllers.user/credential->authenticated-user datomic))
-      (controllers.user/try-register-facebook-user! auth-request crypto sqs datomic http)))
+             [{:keys [auth/user-type auth/cred-type] :as auth-request} :- wire.auth/UserAuthRequest
+              sqs :- protocols.sqs/ISQS
+              datomic :- protocols.datomic/IDatomic
+              crypto :- protocols.crypto/ICrypto
+              http :- protocols.http-client/IHttpClient]
+             (or (some-> (controllers.credential/authenticate-fb-request! auth-request datomic http)
+                         (controllers.user/credential->authenticated-user datomic))
+                 (controllers.user/try-register-facebook-user! auth-request crypto sqs datomic http)))
