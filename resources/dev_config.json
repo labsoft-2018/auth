@@ -16,6 +16,10 @@
     "auth": {
       "scopes": ["auth"],
       "password": "bcrypt+sha512$a2a4a8e71c91271f2860a6515da9c966$12$818f7cf856a9fab7a0a1e9976d294ac99b28cf7e7df6df7e"
+    },
+    "facade": {
+      "scopes": ["facade"],
+      "password": "bcrypt+sha512$f87e96f4c3381fe06bd1feb90c45f8b3$12$40d7a5ef1aefd1b443c2a60afd78cc6cdc7309c09882dbc3"
     }
   }
 }
