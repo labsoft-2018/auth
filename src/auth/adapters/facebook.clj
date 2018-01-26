@@ -9,3 +9,11 @@
    :register/cred-type :credential.type/facebook
    :register/email     (:fb-user/email fb-user)
    :register/fb-id     (:fb-user/id fb-user)})
+
+
+(s/defn external-fb-user->internal-fb-user :- wire.fb-user/FbUser
+  [external-fb-user]
+  {:fb-user/id          (:id external-fb-user)
+   :fb-user/email       (or (:email external-fb-user) "unknwon@unknown.com")  ; FIX THIS
+   :fb-user/name        (:name external-fb-user)
+   :fb-user/picture-url (-> external-fb-user :picture :url)})
