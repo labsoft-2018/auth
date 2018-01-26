@@ -9,6 +9,7 @@
             [common-labsoft.components.datomic :as components.datomic]
             [common-labsoft.components.pedestal :as components.pedestal]
             [common-labsoft.components.s3-client :as components.s3-client]
+            [common-labsoft.components.http-client :as components.http]
             [common-labsoft.components.config :as components.config]
             [common-labsoft.components.sqs :as components.sqs]))
 
@@ -22,4 +23,7 @@
     :crypto (component/using (components.crypto/new-crypto) [:config])
     :sqs-producer (component/using (components.sqs/new-producer sqs/settings) [:config])
     :sqs-consumer (component/using (components.sqs/new-consumer sqs/settings) [:config :webapp])
-    :webapp (component/using (components.webapp/new-webapp) [:config :datomic :token :crypto :sqs-producer])))
+    :webapp (component/using (components.webapp/new-webapp) [:config :datomic :token :crypto :sqs-producer])
+    :http (component/using (components.http/new-http-client) [:config :token])
+    :sqs (component/using (components.sqs/new-sqs sqs/settings) [:config])
+    :webapp (component/using (components.webapp/new-webapp) [:config :datomic :token :crypto :sqs :http])))
