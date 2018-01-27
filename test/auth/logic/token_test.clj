@@ -14,8 +14,10 @@
                               :user/type       :user.type/customer
                               :user/created-at created-at}) => {:token/type   :customer
                                                                 :token/sub    (str user-id)
-                                                                :token/scopes #{"customer"}})
+                                                                :token/scopes #{"customer"}
+                                                                :token/email  "teste@teste.com.br"})
   (fact "on `service->token`"
     (logic.token/service->token "test-service" #{"scope1"}) => {:token/type   :service
                                                                 :token/sub    "test-service"
-                                                                :token/scopes #{"scope1"}}))
+                                                                :token/scopes #{"scope1"}
+                                                                :token/email  "test-service@labsoft.host"}))

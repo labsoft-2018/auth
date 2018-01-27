@@ -20,4 +20,5 @@
                                                                     :user/id    user-id
                                                                     :user/token {:token/scopes #{"customer"}
                                                                                  :token/type   :customer
-                                                                                 :token/sub    (str user-id)}}))
+                                                                                 :token/sub    (str user-id)
+                                                                                 :token/email  "teste"}}))
