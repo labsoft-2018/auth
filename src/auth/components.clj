@@ -20,5 +20,6 @@
     :datomic (component/using (components.datomic/new-datomic datomic.config/settings) [:config])
     :token (component/using (components.token/new-token) [:config :s3-auth])
     :crypto (component/using (components.crypto/new-crypto) [:config])
-    :sqs (component/using (components.sqs/new-sqs sqs/settings) [:config])
-    :webapp (component/using (components.webapp/new-webapp) [:config :datomic :token :crypto :sqs])))
+    :sqs-producer (component/using (components.sqs/new-producer sqs/settings) [:config])
+    :sqs-consumer (component/using (components.sqs/new-consumer sqs/settings) [:config :webapp])
+    :webapp (component/using (components.webapp/new-webapp) [:config :datomic :token :crypto :sqs-producer])))

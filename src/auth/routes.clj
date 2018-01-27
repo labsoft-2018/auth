@@ -12,7 +12,7 @@
             [auth.wire.register :as wire.register]
             [auth.wire.auth :as wire.auth]
             [auth.wire.token :as wire.token]
-            [auth.models.user :as models.user]
+            [schema.core]
             [auth.wire.user :as wire.user]))
 
 (defn register-user

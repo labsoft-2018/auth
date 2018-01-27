@@ -1,6 +1,7 @@
 (ns auth.service
   (:gen-class)
   (:require [common-labsoft.system :as system]
+            [schema.core]
             [auth.components :as components]))
 
 (defn start! [& args]

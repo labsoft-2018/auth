@@ -18,7 +18,7 @@
 (s/defn register-new-user! :- wire.user/AuthenticatedUser
   [register :- wire.register/Register
    crypto :- protocols.crypto/ICrypto
-   sqs :- protocols.sqs/ISQS
+   sqs :- protocols.sqs/IProducer
    datomic :- protocols.datomic/IDatomic]
   (if (logic.credential/valid-cred-type? (:register/type register) (:register/cred-type register))
     (let [user (-> (logic.user/register->user register)
@@ -36,7 +36,7 @@
 (s/defn try-register-facebook-user! :- wire.user/AuthenticatedUser
   [{:keys [auth/fb-token auth/user-type]} :- wire.auth/UserAuthRequest
    crypto :- protocols.crypto/ICrypto
-   sqs :- protocols.sqs/ISQS
+   sqs :- protocols.sqs/IProducer
    datomic :- protocols.datomic/IDatomic
    http]
   (or (and (logic.credential/valid-cred-type? user-type :credential.type/facebook)

@@ -28,7 +28,7 @@
 
 (s/defmethod user-token! :credential.type/password :- wire.user/AuthenticatedUser
   [{:keys [auth/user-type auth/cred-type] :as auth-request} :- wire.auth/UserAuthRequest
-   _ :- protocols.sqs/ISQS
+   _ :- protocols.sqs/IProducer
    datomic :- protocols.datomic/IDatomic
    crypto :- protocols.crypto/ICrypto
    http]
@@ -37,7 +37,7 @@
 
 (s/defmethod user-token! :credential.type/facebook :- wire.user/AuthenticatedUser
   [{:keys [auth/user-type auth/cred-type] :as auth-request} :- wire.auth/UserAuthRequest
-   sqs :- protocols.sqs/ISQS
+   sqs :- protocols.sqs/IProducer
    datomic :- protocols.datomic/IDatomic
    crypto :- protocols.crypto/ICrypto
    http]
