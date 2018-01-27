@@ -29,7 +29,7 @@ jobs:
           docker_layer_caching: true
       - run: |
           export IMAGE_NAME=labsoft-2018/$CIRCLE_PROJECT_REPONAME
-          export TAG=$CICLE_BUILD_NUM-$CIRCLE_SHA1
+          export TAG=$CIRCLE_BUILD_NUM-$CIRCLE_SHA1
           export ECR_URL=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
           docker build -t $IMAGE_NAME:latest .
           docker tag $IMAGE_NAME:latest $ECR_URL/$IMAGE_NAME:$TAG
