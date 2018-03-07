@@ -66,6 +66,12 @@ workflows:
               only: master
           requires:
             - test
+      - vsts-push:
+          filters:
+            branches:
+              only: master
+          requires:
+            - build
       - promote:
           filters:
             branches:
@@ -73,12 +79,6 @@ workflows:
           type: approval
           requires:
             - build
-      - vsts-push:
-          filters:
-            branches:
-              only: master
-          requires:
-            - promote
       - deploy:
           filters:
             branches:
