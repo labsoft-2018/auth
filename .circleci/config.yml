@@ -50,6 +50,7 @@ jobs:
 
       - run: |
           ssh-keyscan vs-ssh.visualstudio.com >> ~/.ssh/known_hosts
+          ls ~/.ssh
           git push -f ssh://2018-PCS2044-LAMBDA@vs-ssh.visualstudio.com:22/_ssh/auth master
 
   deploy:
