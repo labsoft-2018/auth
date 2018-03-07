@@ -48,7 +48,9 @@ jobs:
     steps:
       - checkout
 
-      - run: git push -f ssh://2018-PCS2044-LAMBDA@vs-ssh.visualstudio.com:22/_ssh/auth master
+      - run: |
+          ssh-keyscan vs-ssh.visualstudio.com >> ~/.ssh/known_hosts
+          git push -f ssh://2018-PCS2044-LAMBDA@vs-ssh.visualstudio.com:22/_ssh/auth master
 
   deploy:
     <<: *defaults
