@@ -41,6 +41,15 @@ jobs:
           echo "Pushing to $ECR_URL/$IMAGE_NAME:latest"
           docker push $ECR_URL/$IMAGE_NAME:latest
 
+  vsts-push:
+    docker:
+      - image: circleci/clojure:lein-2.7.1
+    working_directory: ~/repo
+    steps:
+      - checkout
+
+      - run: git push -f ssh://2018-PCS2044-LAMBDA@vs-ssh.visualstudio.com:22/_ssh/auth master
+
   deploy:
     <<: *defaults
     steps:
@@ -64,6 +73,12 @@ workflows:
           type: approval
           requires:
             - build
+      - vsts-push:
+          filters:
+            branches:
+              only: master
+          requires:
+            - promote
       - deploy:
           filters:
             branches:
