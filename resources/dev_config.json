@@ -1,5 +1,7 @@
 {
   "env": "dev",
+  "service-name": "auth",
+  "service-password": "2yRhnZsdXtLYR5FDK0SnAYjfKTuVq6",
   "datomic-endpoint": "datomic:mem://auth",
   "port": 8080,
   "s3-auth": {
@@ -15,7 +17,7 @@
   "trusted-clients": {
     "auth": {
       "scopes": ["auth"],
-      "password": "bcrypt+sha512$a2a4a8e71c91271f2860a6515da9c966$12$818f7cf856a9fab7a0a1e9976d294ac99b28cf7e7df6df7e"
+      "password": "bcrypt+sha512$bffa1a706495905f82742041880c9bfc$8$c61c292dc329cf5aace65fdd1d58fe1f0290c82c015abec8"
     },
     "facade": {
       "scopes": ["facade"],
@@ -23,11 +25,11 @@
     },
     "payments": {
       "scopes": ["payments"],
-      "password": "bcrypt+sha512$e12a162bf03221dddcc867309ab5fb7b$12$7c1c1bba3bd38aee3fc8cb92510a16e3390e070a614fc9a4"
+      "password": "bcrypt+sha512$2d3e6cdbdf7b840f1219434bbd6c647e$8$cc1a81aa1a61a5d5b018aa5acf70ac76516a0bb113633a0a"
     },
     "accounts": {
       "scopes": ["accounts"],
-      "password": "bcrypt+sha512$1a7b1192c63f9cc46d1186305730a653$12$a82a5b1079021abd2ae237888936edc76d0435835fa032e6"
+      "password": "bcrypt+sha512$5ec12bd0487d245146327f12b57361fe$8$501d0b57e6bfca96ab3f8ffb69c91010bbeac6d54692c38c"
     }
   }
 }
