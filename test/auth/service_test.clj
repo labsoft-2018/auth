@@ -10,7 +10,7 @@
                     :register/cred-type :credential.type/password
                     :register/type      :user.type/customer})
 (def service-token-request {:auth/service  "auth"
-                            :auth/password "123"})
+                            :auth/password "2yRhnZsdXtLYR5FDK0SnAYjfKTuVq6"})
 
 (def user-token-request {:auth/user-type :user.type/customer
                          :auth/cred-type :credential.type/password
