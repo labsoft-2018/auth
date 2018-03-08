@@ -29,29 +29,22 @@ jobs:
           docker_layer_caching: true
       - run: |
           export IMAGE_NAME=labsoft-2018/$CIRCLE_PROJECT_REPONAME
-          export TAG=$CIRCLE_BUILD_NUM-$CIRCLE_SHA1
-          export ECR_URL=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
-          docker build -t $IMAGE_NAME:latest .
-          docker tag $IMAGE_NAME:latest $ECR_URL/$IMAGE_NAME:$TAG
-          docker tag $IMAGE_NAME:latest $ECR_URL/$IMAGE_NAME:latest
+          export TAG=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/$IMAGE_NAME
+          docker build -t $IMAGE_NAME:$CIRCLE_BUILD_NUM -t $IMAGE_NAME:latest .
+          docker tag $IMAGE_NAME:latest $TAG
           aws ecr create-repository --repository-name $IMAGE_NAME || echo "Repo already exists"
           $(aws ecr get-login --no-include-email)
-          echo "Pushing to $ECR_URL/$IMAGE_NAME:$TAG"
-          docker push $ECR_URL/$IMAGE_NAME:$TAG
-          echo "Pushing to $ECR_URL/$IMAGE_NAME:latest"
-          docker push $ECR_URL/$IMAGE_NAME:latest
+          docker push $TAG
 
   vsts-push:
     docker:
       - image: circleci/clojure:lein-2.7.1
     working_directory: ~/repo
     steps:
+      - add_ssh_keys
       - checkout
-
-      - run: |
-          ssh-keyscan vs-ssh.visualstudio.com >> ~/.ssh/known_hosts
-          ls ~/.ssh
-          git push -f ssh://2018-PCS2044-LAMBDA@vs-ssh.visualstudio.com:22/_ssh/auth master
+      - run: ssh-keyscan vs-ssh.visualstudio.com >> ~/.ssh/known_hosts
+      - run: git push ssh://2018-PCS2044-LAMBDA@vs-ssh.visualstudio.com:22/quack-pack/_ssh/auth master
 
   deploy:
     <<: *defaults
