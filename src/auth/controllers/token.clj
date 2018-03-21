@@ -41,7 +41,7 @@
    sqs :- protocols.sqs/IProducer
    datomic :- protocols.datomic/IDatomic
    crypto :- protocols.crypto/ICrypto
-   http]
+   http :- protocols.http-client/IHttpClient]
   (or (some-> (controllers.credential/authenticate-fb-request! auth-request datomic http)
               (controllers.user/credential->authenticated-user datomic))
       (controllers.user/try-register-facebook-user! auth-request crypto sqs datomic http)))
