@@ -24,4 +24,4 @@
     :sqs-producer (component/using (components.sqs/new-producer sqs/settings) [:config])
     :sqs-consumer (component/using (components.sqs/new-consumer sqs/settings) [:config :webapp])
     :http (component/using (components.http/new-http-client) [:config :token])
-    :webapp (component/using (components.webapp/new-webapp) [:config :datomic :token :crypto :sqs-producer])))
+    :webapp (component/using (components.webapp/new-webapp) [:config :datomic :token :crypto :sqs-producer :http])))
