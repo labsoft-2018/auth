@@ -34,6 +34,10 @@
     "deliveries": {
       "scopes": ["deliveries"],
       "password": "bcrypt+sha512$6539248647206c39aa05b43d697e0a18$8$8454c86ae97fb06676d5cc1463875feedb5eb163b5fe1b83"
+    },
+    "jaiminho": {
+      "scopes": ["jaiminho"],
+      "password": "bcrypt+sha512$e2e11910f6081c25ea16634f97a75bfb$8$87f1fb01ba8c5452f572823feb2f3f6e3c52090c81fb6773"
     }
   }
 }
