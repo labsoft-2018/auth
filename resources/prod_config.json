@@ -28,6 +28,10 @@
     "accounts": {
       "scopes": ["accounts"],
       "password": "bcrypt+sha512$5ec12bd0487d245146327f12b57361fe$8$501d0b57e6bfca96ab3f8ffb69c91010bbeac6d54692c38c"
+    },
+    "deliveries": {
+      "scopes": ["deliveries"],
+      "password": "bcrypt+sha512$6539248647206c39aa05b43d697e0a18$8$8454c86ae97fb06676d5cc1463875feedb5eb163b5fe1b83"
     }
   }
 }
