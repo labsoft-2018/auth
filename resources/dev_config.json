@@ -1,7 +1,7 @@
 {
   "env": "dev",
   "service-name": "auth",
-  "service-password": "2yRhnZsdXtLYR5FDK0SnAYjfKTuVq6",
+  "service-password": "!XkzBz;xd+Z&),3X",
   "datomic-endpoint": "datomic:mem://auth",
   "port": 8080,
   "s3-auth": {
@@ -39,5 +39,8 @@
       "scopes": ["jaiminho"],
       "password": "bcrypt+sha512$e2e11910f6081c25ea16634f97a75bfb$8$87f1fb01ba8c5452f572823feb2f3f6e3c52090c81fb6773"
     }
+  },
+  "services": {
+
   }
 }
